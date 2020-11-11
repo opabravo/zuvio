@@ -2,7 +2,7 @@
 
 Zuvio自動點名腳本
 
-<img src="https://i.imgur.com/AglaOAM.png" Telegram-RAT">
+<img src="https://i.imgur.com/AglaOAM.png">
                                                         
 ### 已包裝程式下載
 
