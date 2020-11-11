@@ -18,4 +18,5 @@ chrome 8.5以上
 # 開發環境
 python3
 
+* `pip install pyinstaller`
 * `pip install -r requirements.txt`
