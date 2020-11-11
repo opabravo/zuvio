@@ -6,7 +6,7 @@ Zuvio自動點名腳本
                                                         
 ### 已包裝EXE程式下載
 
-[按此下載](https://github.com/rauenzi/BBDInstaller/releases/latest/download/BandagedBD.exe)
+[按此下載](https://github.com/opabravo/zuvio/releases/download/1.0/Zuvio_Helper.zip)
 * 執行 `Zuvio.exe`
 
 
