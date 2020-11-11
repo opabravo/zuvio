@@ -1,13 +1,13 @@
 # 說明
-#
 
 Zuvio自動點名腳本
 
-已包裝程式下載 - 
+<img src="https://i.imgur.com/AglaOAM.png" Telegram-RAT">
+                                                        
+### 已包裝程式下載
 
-<p align="center">
-    <img src="https://i.imgur.com/AglaOAM.png" Telegram-RAT">
-</p>
+[按此下載](https://github.com/rauenzi/BBDInstaller/releases/latest/download/BandagedBD.exe).
+
 
 # 系統需求
 Windows 7 以上
