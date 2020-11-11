@@ -17,7 +17,7 @@ chrome_options.add_argument('log-level=3')
 #LOGGER.setLevel(logging.WARNING)
 
 l = "="*15
-BANNER = f"{l}\nZuvio自動點名小幫手\nhttps://github.com/new\n{l}\n"
+BANNER = f"{l}\nZuvio自動點名小幫手\nhttps://github.com/opabravo/zuvio\n\n還迎來git pull & create issues~\n{l}\n"
 
 DRIVER = webdriver.Chrome("chromeDRIVER", options=chrome_options)
 URI = "https://irs.zuvio.com.tw/student5/irs/rollcall/{}"
