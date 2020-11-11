@@ -2,11 +2,12 @@
 
 Zuvio自動點名腳本
 
-<img src="https://i.imgur.com/AglaOAM.png">
+<img src="https://i.imgur.com/p5cqBGy.png">
                                                         
-### 已包裝程式下載
+### 已包裝EXE程式下載
 
-[按此下載](https://github.com/rauenzi/BBDInstaller/releases/latest/download/BandagedBD.exe).
+[按此下載](https://github.com/rauenzi/BBDInstaller/releases/latest/download/BandagedBD.exe)
+* 執行 `Zuvio.exe`
 
 
 # 系統需求
