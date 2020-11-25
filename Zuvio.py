@@ -1,3 +1,4 @@
+import datetime
 import random
 import time
 import winsound
@@ -9,6 +10,18 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 chrome_options = webdriver.ChromeOptions()
+
+prefs = {"profile.managed_default_content_settings.images":2,
+         "profile.default_content_setting_values.notifications":2,
+         "profile.managed_default_content_settings.stylesheets":2,
+         "profile.managed_default_content_settings.cookies":2,
+         "profile.managed_default_content_settings.javascript":1,
+         "profile.managed_default_content_settings.plugins":1,
+         "profile.managed_default_content_settings.popups":2,
+         "profile.managed_default_content_settings.geolocation":2,
+         "profile.managed_default_content_settings.media_stream":2,
+}
+chrome_options.add_experimental_option("prefs",prefs)
 
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
@@ -39,14 +52,13 @@ class Courses:
                 courses.remove(x)
                 break
         return courses
-        # end
 
     def select_course(self, courses):
 
         for course in courses:
             print(f"{courses.index(course) + 1} - {course.text}")
 
-        i = int(input(f"\n{'-' * 20}\n\nSelect : ")) - 1
+        i = int(input(f"\n{'-' * 20}\n\nSelect ~> ")) - 1
         selected_course = courses[i].get_attribute("data-course-id")
         return selected_course
 
@@ -84,19 +96,6 @@ def login():
 
         print("登入成功!!\n")
     
-    # def login_cookie():
-    #     DRIVER.get("https://irs.zuvio.com.tw/student5/irs/index")
-    #     time.sleep(10)
-    #     load_cookie()
-    #     DRIVER.refresh()
-    #     page = str(DRIVER.page_source)
-
-    #     if "全部課程" not in page:
-    #         os.remove("cookies")
-    #         print("已移除無效的帳密資訊\n\n")
-    #         request_login()
-
-    # Try Load save data
     if os.path.exists("settings.json"):
         saved_login()
     else:
@@ -112,19 +111,17 @@ def load_login():
         data = json.load(fp)
     return data
 
-# def save_cookie():
-#     with open("cookies", 'w') as filehandler:
-#         json.dump(DRIVER.get_cookies(), filehandler)
-
-# def load_cookie():
-#     with open("cookies", 'r') as cookiesfile:
-#         cookies = json.load(cookiesfile)
-#     for cookie in cookies:
-#         DRIVER.add_cookie(cookie)
+def call_result(course_id):
+    DRIVER.get(URI.format(course_id))  # Fill the course ID
+    page_source = DRIVER.page_source
+    soup = BeautifulSoup(page_source, 'html.parser')
+    result = soup.find("div", class_="irs-rollcall")
+    # print(result)
+    return result
 
 def monitor_rollcall(courses, course_id):
     course_name = ""
-    call_count = 0
+    during_call = False
 
     for c in courses:
         if course_id == c.get_attribute("data-course-id"):
@@ -134,29 +131,27 @@ def monitor_rollcall(courses, course_id):
     print("正在等待點名開始...")
 
     while True:
-        DRIVER.get(URI.format(course_id))  # Fill the course ID
+        result = call_result(course_id)
 
-        page_source = DRIVER.page_source
-        soup = BeautifulSoup(page_source, 'html.parser')
-        result = soup.find("div", class_="irs-rollcall")
-        # print(result)
-
-        if "準時" in str(result):
-            print(f"\n{'+' * 20}")
-            print(f'已成功點名!!!\n')
-            print(f"{'+' * 20}\n")
-
-        if "簽到開放中" in str(result):
+        if(during_call==True):  # Override the role call
+            if ("簽到開放中" in str(result)): continue      
+            during_call = False
+            print(""f"***\n[{datetime.datetime.now().time()}] 點名結束\n***")
+        
+        if ("簽到開放中" in str(result)):
+            during_call = True
             winsound.Beep(1500, 500)
             winsound.Beep(1500, 1000)
             # print('\a')
-            print(f"開始點名{'+' * 20}")
+            print(f"\n***\n[{datetime.datetime.now().time()}] 點名開始\n***")
 
             try:
                 DRIVER.find_element(By.ID, "submit-make-rollcall").click()
             except Exception as e:
                 print(e)
                 continue
+            result = call_result(course_id)
+            if "準時" in str(result): print(f'已成功點名!!!')
 
         DRIVER.refresh()
         time.sleep(random.randint(7, 16))
@@ -177,5 +172,4 @@ except KeyboardInterrupt:
     pass
 
 print("\nExited...")
-input()
 
