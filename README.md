@@ -19,7 +19,7 @@ Zuvio自動點名腳本
 # 系統需求
 Windows 7 以上
 
-chrome 8.5以上
+Chrome 8.5 以上
 
 # 開發環境
 python3
@@ -29,5 +29,3 @@ python3
 * Comipler
 
 `pip install pyinstaller`
-
-
