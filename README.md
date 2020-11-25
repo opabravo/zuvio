@@ -7,6 +7,12 @@ Zuvio自動點名腳本
 ### 已包裝EXE程式下載
 
 [按此下載](https://github.com/opabravo/zuvio/releases/download/1.0/Zuvio_Helper.zip)
+
+
+* 將所有檔案解壓縮到資料夾，包含chromedriver.exe
+
+* 依據自己的chrome版本下載對應driver (此項目使用的是85.0) - https://chromedriver.chromium.org/downloads
+
 * 執行 `Zuvio.exe`
 
 
