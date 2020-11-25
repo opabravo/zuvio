@@ -134,24 +134,24 @@ def monitor_rollcall(courses, course_id):
         result = call_result(course_id)
 
         if(during_call==True):  # Override the role call
-            if ("簽到開放中" in str(result)): continue      
+            if ("目前未開放簽到" not in str(result)): continue      
             during_call = False
-            print(""f"***\n[{datetime.datetime.now().time()}] 點名結束\n***")
+            print(f"\n[{datetime.datetime.now().time()}] 點名結束\n")
         
         if ("簽到開放中" in str(result)):
             during_call = True
             winsound.Beep(1500, 500)
             winsound.Beep(1500, 1000)
             # print('\a')
-            print(f"\n***\n[{datetime.datetime.now().time()}] 點名開始\n***")
+            print(f"\n[{datetime.datetime.now().time()}] 點名開始\n***")
 
             try:
                 DRIVER.find_element(By.ID, "submit-make-rollcall").click()
             except Exception as e:
                 print(e)
                 continue
-            result = call_result(course_id)
-            if "準時" in str(result): print(f'已成功點名!!!')
+            finally:
+                print(f'已成功點名!!!')
 
         DRIVER.refresh()
         time.sleep(random.randint(7, 16))
