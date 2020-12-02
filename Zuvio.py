@@ -29,7 +29,7 @@ chrome_options.add_argument('--headless')
 chrome_options.add_argument('log-level=3')
 #LOGGER.setLevel(logging.WARNING)
 
-l = "="*15
+l = "="*35
 BANNER = f"{l}\nZuvio自動點名小幫手\nhttps://github.com/opabravo/zuvio\n\n還迎來git pull & create issues~\n{l}\n"
 
 DRIVER = webdriver.Chrome("chromeDRIVER", options=chrome_options)
@@ -136,7 +136,7 @@ def monitor_rollcall(courses, course_id):
         if(during_call==True):  # Override the role call
             if ("目前未開放簽到" not in str(result)): continue      
             during_call = False
-            print(f"\n[{datetime.datetime.now().time()}] 點名結束\n")
+            print(f"[{datetime.datetime.now().time()}] 點名結束\n")
         
         if ("簽到開放中" in str(result)):
             during_call = True
@@ -147,12 +147,11 @@ def monitor_rollcall(courses, course_id):
 
             try:
                 DRIVER.find_element(By.ID, "submit-make-rollcall").click()
+                print(f'已成功點名!!!\n***')
             except Exception as e:
                 print(e)
                 continue
-            finally:
-                print(f'已成功點名!!!')
-
+                
         DRIVER.refresh()
         time.sleep(random.randint(7, 16))
 
