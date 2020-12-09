@@ -3,11 +3,12 @@ import random
 import time
 import winsound
 import json
-import os
+import os, sys
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 
 chrome_options = webdriver.ChromeOptions()
 
@@ -32,7 +33,12 @@ chrome_options.add_argument('log-level=3')
 l = "="*35
 BANNER = f"{l}\nZuvio自動點名小幫手\nhttps://github.com/opabravo/zuvio\n\n還迎來git pull & create issues~\n{l}\n"
 
-DRIVER = webdriver.Chrome("chromeDRIVER", options=chrome_options)
+try:
+    DRIVER = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_options)
+except Exception:
+    print("error loading driver!!!\n\n" + sys.exc_info()[0])
+    exit(1)
+
 URI = "https://irs.zuvio.com.tw/student5/irs/rollcall/{}"
 CALL_COUNT = 0
 
@@ -166,8 +172,6 @@ try:
     monitor_rollcall(courses, course_id)
 
 except KeyboardInterrupt:
-    #if count != 0:
-    #    print(f"Roll Called {count} times")
     pass
 
 print("\nExited...")
