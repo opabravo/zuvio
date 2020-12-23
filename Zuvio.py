@@ -182,22 +182,23 @@ try:
     login()
     c = Courses()
     courses = c.get_courses()
-    #course_id = c.select_course(courses)
-    #monitor_rollcall(courses, course_id)
-    c.print_courses(courses)
-    print(f"最小誤差值 : 1秒 || 最大誤差值 : {3*(len(courses)-1)}秒")  #Instant : 1, Max : 3*(len(courses)-1)
-    print(f"正在 {len(courses)} 門課程中等待點名...")
-    
 
-    while 1:
-        monitorCalls(courses)
+    if len(sys.argv)==2:
+        course_id = c.select_course(courses)
+        monitor_rollcall(courses, course_id)
+    else:
+        c.print_courses(courses)
+        print(f"最小誤差值 : 1秒 && 最大誤差值 : {3*(len(courses)-1)}秒")  #Instant : 1, Max : 3*(len(courses)-1)
+        print(f"正在 {len(courses)} 門課程中等待點名...")
+        
+        while 1:
+            monitorCalls(courses)
 
 except KeyboardInterrupt:
     input("\nExited...")
-    pass
 
 except Exception as e:
-    print(str(e))
+    print(str(e.with_traceback()))
     time.sleep(10)
     pass
 

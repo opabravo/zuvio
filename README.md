@@ -2,7 +2,7 @@
 
 Zuvio自動點名腳本
 
-<img src="https://i.imgur.com/p5cqBGy.png">
+<img src="https://i.imgur.com/MNkpaR3.png">
                                                         
 ### 已包裝程式下載
 
