@@ -42,8 +42,6 @@ except Exception:
 URI = "https://irs.zuvio.com.tw/student5/irs/rollcall/{}"
 CALL_COUNT = 0
 
-
-
 class Courses:
     def __init__(self):
         pass
@@ -57,17 +55,25 @@ class Courses:
             if "大學生" in x.text:
                 courses.remove(x)
                 break
-        return courses
 
-    def select_course(self, courses):
+        course_ids = [x.get_attribute("data-course-id") for x in courses]
+        course_names = [x.text for x in courses]
+        data = dict(zip(course_ids, course_names))
+        return data
 
-        for course in courses:
-            print(f"{courses.index(course) + 1} - {course.text}")
+    def select_course(self, courses:dict):
+        for id, name in courses.items():
+            print(f"{courses.index(id) + 1} - {name}")
 
         i = int(input(f"\n{'-' * 20}\n\nSelect ~> ")) - 1
-        selected_course = courses[i].get_attribute("data-course-id")
+        courses.get()
+        selected_course = courses.keys()[i]
         return selected_course
 
+    def print_courses(self, courses):
+        for k, v in courses.items():
+            print(f"[{k}] {v}")
+        print(f"\n{'-' * 20}\n")
 
 def login():
     #print("進入登入頁")
@@ -125,18 +131,25 @@ def call_result(course_id):
     # print(result)
     return result
 
+def submit_call(course_name):
+    winsound.Beep(1500, 500)
+    winsound.Beep(1500, 1000)
+
+    try:
+        DRIVER.find_element(By.ID, "submit-make-rollcall").click()
+        print(f'[{datetime.datetime.now().time()}] ~> {course_name} | 已成功點名!!!\n')
+    except Exception as e:
+        print(repr(e))
+        pass
+
 def monitor_rollcall(courses, course_id):
-    course_name = ""
     during_call = False
 
-    for c in courses:
-        if course_id == c.get_attribute("data-course-id"):
-            course_name = c.text
-
-    print(f"已選擇 - {course_name}({course_id})")
+    print(f"已選擇 - {courses[course_id]}({course_id})")
     print("正在等待點名開始...")
 
     while True:
+
         result = call_result(course_id)
 
         if(during_call==True):  # Override the role call
@@ -146,20 +159,21 @@ def monitor_rollcall(courses, course_id):
         
         if ("簽到開放中" in str(result)):
             during_call = True
-            winsound.Beep(1500, 500)
-            winsound.Beep(1500, 1000)
-            # print('\a')
-            print(f"\n[{datetime.datetime.now().time()}] 點名開始\n***")
-
-            try:
-                DRIVER.find_element(By.ID, "submit-make-rollcall").click()
-                print(f'已成功點名!!!\n***')
-            except Exception as e:
-                print(e)
-                continue
+            submit_call(courses[course_id])
                 
         DRIVER.refresh()
         time.sleep(random.randint(7, 16))
+
+def monitorCalls(courses):
+
+    for id, name in courses.items():
+            result = call_result(id)
+            
+            if ("簽到開放中" in str(result)):
+                submit_call(name)
+
+            time.sleep(random.randint(1, 3))
+
 
 os.system('cls')
 print(BANNER)
@@ -168,11 +182,24 @@ try:
     login()
     c = Courses()
     courses = c.get_courses()
-    course_id = c.select_course(courses)
-    monitor_rollcall(courses, course_id)
+    #course_id = c.select_course(courses)
+    #monitor_rollcall(courses, course_id)
+    c.print_courses(courses)
+    print(f"最小誤差值 : 1秒 || 最大誤差值 : {3*(len(courses)-1)}秒")  #Instant : 1, Max : 3*(len(courses)-1)
+    print(f"正在 {len(courses)} 門課程中等待點名...")
+    
+
+    while 1:
+        monitorCalls(courses)
 
 except KeyboardInterrupt:
+    input("\nExited...")
     pass
 
-print("\nExited...")
+except Exception as e:
+    print(str(e))
+    time.sleep(10)
+    pass
+
+
 
