@@ -8,6 +8,8 @@ import os, sys
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 chrome_options = webdriver.ChromeOptions()
@@ -82,12 +84,13 @@ def login():
     def start_login(user, passwd):
         DRIVER.find_element(By.ID, "email").send_keys(user)
         DRIVER.find_element(By.ID, "password").send_keys(passwd)
-        DRIVER.find_element(By.ID, "login_btn").submit()
+        DRIVER.find_element(By.ID, "login-btn").submit()
         return str(DRIVER.page_source)
 
     def request_login():
         email = input("帳號 : ")
         passwd = input("密碼 : ")
+        WebDriverWait(DRIVER, 10).until(EC.presence_of_element_located((By.ID, 'login-btn')))
         page = start_login(email, passwd)
 
         if "全部課程" not in page:
@@ -188,7 +191,7 @@ try:
         monitor_rollcall(courses, course_id)
     else:
         c.print_courses(courses)
-        print(f"最小誤差值 : 1秒 && 最大誤差值 : {3*(len(courses)-1)}秒")  #Instant : 1, Max : 3*(len(courses)-1)
+        print(f"最小誤差值 : 1秒\n最大誤差值 : {3*(len(courses)-1)}秒\n")  #Instant : 1, Max : 3*(len(courses)-1)
         print(f"正在 {len(courses)} 門課程中等待點名...")
         
         while 1:
@@ -197,8 +200,11 @@ try:
 except KeyboardInterrupt:
     input("\nExited...")
 
+except TimeoutException:
+    print("Loading took too much time!")
+
 except Exception as e:
-    print(str(e.with_traceback()))
+    print(str(e))
     time.sleep(10)
     pass
 
