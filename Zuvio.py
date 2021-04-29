@@ -34,7 +34,7 @@ chrome_options.add_argument('log-level=3')
 #LOGGER.setLevel(logging.WARNING)
 
 l = "="*35
-BANNER = f"{l}\nZuvio自動點名小幫手\nhttps://github.com/opabravo/zuvio\n\n還迎來git pull & create issues~\n{l}\n"
+BANNER = f"{l}\nZuvio自動點名小幫手\nhttps://github.com/opabravo/zuvio\n\n歡迎來git pull & create issues~\n{l}\n"
 
 try:
     DRIVER = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_options)
