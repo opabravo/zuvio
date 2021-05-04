@@ -1,8 +1,8 @@
 # 說明
 
-Zuvio自動點名腳本
+Zuvio自動點名腳本，簡單易用
 
-<img src="https://upload.cc/i1/2021/04/28/X9u5b4.png">
+<img src="https://upload.cc/i1/2021/05/04/5f1cGA.png">
                                                         
 ### 已包裝程式下載
 
