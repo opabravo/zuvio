@@ -107,7 +107,7 @@ class Login:
 
     def get_cookies(self, driver):
         driver.get("https://irs.zuvio.com.tw/")
-        WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'i-m-p-c-a-title-box')))
+        WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.CLASS_NAME, 'i-m-p-c-a-title-box')))
         cookies = driver.get_cookies()
         return cookies
 
@@ -134,14 +134,14 @@ class Login:
             print("已移儲存的無效帳密，請重新輸入帳密\n")
             return self.login_by_request()
 
-        print("登入成功!!\n")
-
     def login(self):
         DRIVER.get("https://irs.zuvio.com.tw/")
         if os.path.exists("settings.json"):
             self.login_by_saved()
         else:
             self.login_by_request()
+
+        print("登入成功!!\n")
 
 
 class Zuvio(Courses, Login):
