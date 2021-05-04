@@ -91,7 +91,7 @@ class Login:
     def login_by_request(self):
         email = input("帳號 : ")
         if "@gcloud" in email: # redirect to google login method
-            return self.google_login()
+            return self.manual_login()
 
         password = input("密碼 : ")
 
@@ -111,14 +111,14 @@ class Login:
         cookies = driver.get_cookies()
         return cookies
 
-    def google_login(self):
+    def manual_login(self):
         input("\n由於使用Google自動登入將面臨 不明裝置驗證、人機驗證 等不穩定之因素\n請手動登入!!\n> 按[ENTER]跳轉")
         driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
         cookies = self.get_cookies(driver)
         driver.quit()
         #if ".irs.zuvio.com.tw" not in cookies[0]["domain"]:
         #    input("\n未成功登入!請重新嘗試\n[ENTER]..")
-        #    return self.google_login()
+        #    return self.manual_login()
 
         DRIVER.delete_all_cookies()
         for cookie in cookies:
