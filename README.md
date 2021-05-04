@@ -6,7 +6,7 @@ Zuvio自動點名腳本，簡單易用
                                                         
 ### 已包裝程式下載
 
-[按此下載]("https://github.com/opabravo/zuvio/releases/download/1.0/Zuvio.exe")
+ [按此下載]("https://github.com/opabravo/zuvio/releases/download/1.1/Zuvio.exe")
 
 
 # 系統需求
