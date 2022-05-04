@@ -1,3 +1,5 @@
+.idea/
+venv/
 dist/*
 debug.log
 settings.json
