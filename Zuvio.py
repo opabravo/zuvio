@@ -62,8 +62,7 @@ class Courses:
 
         course_ids = [x.get_attribute("data-course-id") for x in courses]
         course_names = [x.text for x in courses]
-        data = dict(zip(course_ids, course_names))
-        return data
+        return dict(zip(course_ids, course_names))
 
     def select_course(self, courses: dict):
         for id, name in courses.items():
@@ -71,8 +70,7 @@ class Courses:
 
         i = int(input(f"\n{'-' * 20}\n\nSelect ~> ")) - 1
         courses.get()
-        selected_course = courses.keys()[i]
-        return selected_course
+        return courses.keys()[i]
 
     def print_courses(self, courses):
         for k, v in courses.items():
@@ -108,8 +106,7 @@ class Login:
     def get_cookies(self, driver):
         driver.get("https://irs.zuvio.com.tw/")
         WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.CLASS_NAME, 'i-m-p-c-a-title-box')))
-        cookies = driver.get_cookies()
-        return cookies
+        return driver.get_cookies()
 
     def manual_login(self):
         input("\n由於使用Google自動登入將面臨 不明裝置驗證、人機驗證 等不穩定之因素\n請手動登入!!\n> 按[ENTER]跳轉")
@@ -150,9 +147,8 @@ class Zuvio(Courses, Login):
         DRIVER.get(URI.format(course_id))  # Fill the course ID
         page_source = DRIVER.page_source
         soup = BeautifulSoup(page_source, 'html.parser')
-        result = soup.find("div", class_="irs-rollcall")
         # print(result)
-        return result
+        return soup.find("div", class_="irs-rollcall")
 
     def submit_call(self, course_name):
         winsound.Beep(1500, 500)
@@ -162,8 +158,7 @@ class Zuvio(Courses, Login):
             DRIVER.find_element(By.ID, "submit-make-rollcall").click()
             print(f'[{datetime.datetime.now().time()}] ~> {course_name} | 已成功點名!!!\n')
         except Exception as e:
-            print(str(e))
-            pass
+            print(e)
 
     def monitor_rollcall(self, courses, course_id):
         during_call = False
@@ -231,7 +226,5 @@ except KeyboardInterrupt:
 
 except TimeoutException:
     print("連線逾時")
-    pass
-
 except Exception as e:
     raise
